@@ -14,7 +14,7 @@ const gameboard = (() => {
 })();
 
 
-// gameboard.printBoard()
+gameboard.printBoard()
 
 
 // Factory Function for players

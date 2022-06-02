@@ -1,0 +1,42 @@
+:root {
+    --slate-900: #0f172a;
+    --slate-700: #334155;
+    --slate-500: #64748b;
+    --slate-300: #cbd5e1;
+    --slate-100: #f1f5f9;
+}
+
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+body {
+    height: 100vh;
+    background: linear-gradient(var(--slate-900), var(--slate-700));
+    color: var(--slate-300);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+h1 {
+    font-size: 3.5rem;
+    margin-bottom: 2rem;
+}
+
+.container {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+}
+
+.cell {
+    font-size: 3.0rem;
+    border: 2px solid var(--slate-100);
+    width: 100px;
+    height: 100px;
+    text-align: center;
+    padding-top: 20px;
+}
