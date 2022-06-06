@@ -56,3 +56,18 @@ h1 {
     display: flex;
     gap: 15px;
 }
+
+.hide {
+    display: none;
+}
+
+.prompt {
+    position: absolute;
+    background-color: var(--slate-300);
+    color: var(--slate-900);
+    padding: 20px;
+    border-radius: 10px;
+
+
+
+}
