@@ -27,9 +27,20 @@ h1 {
     margin-bottom: 2rem;
 }
 
-.container {
+.game-area {
+    display: flex;
+    gap: 100px;
+}
+
+.gameboard {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
+}
+
+.controls {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
 }
 
 .cell {
@@ -39,4 +50,9 @@ h1 {
     height: 100px;
     text-align: center;
     padding-top: 20px;
+}
+
+.controls>div {
+    display: flex;
+    gap: 15px;
 }

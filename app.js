@@ -1,3 +1,5 @@
+// Button for Starting Game
+
 // Module for gameboard
 const gameboard = (() => {
     const gameboardArray = ["X", "O", "X", "~", "X", "O", "~", "~", "O"];
@@ -18,9 +20,18 @@ gameboard.printBoard()
 
 
 // Factory Function for players
-const Player = (name) => {
+const Player = (name, symbol) => {
     const getName = () => name;
+    const getSymbol = () => symbol
 }
 
 
 // object for flow of game
+const playGame = (() => {
+    // check to see if players have been assigned symbols
+    // if not, assign Player 1 and Player 2 to X/O
+    // if they have, then continue
+
+
+
+})
