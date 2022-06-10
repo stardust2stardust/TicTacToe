@@ -5,8 +5,8 @@ const newGame = document.querySelector('.new-game')
 const Player = (name, symbol) => {
     const getName = () => name;
     const getSymbol = () => symbol;
-    const makeMove = () => {
-
+    const makeMove = (index) => {
+        console.log(index, name)
     }
     return { getName, getSymbol, makeMove }
 }
@@ -24,8 +24,14 @@ const gameboard = (() => {
             i++;
         })
     }
-    printBoard();
-    return { printBoard, gameboardArray }
+
+    const markCell = (index, symbol) => {
+        gameboardArray[index] = symbol;
+        printBoard();
+        console.log(gameboardArray)
+    }
+
+    return { printBoard, gameboardArray, markCell }
 })();
 
 
@@ -58,21 +64,51 @@ const playGame = (() => {
         const p1 = Player(p1Name, 'X');
         const p2 = Player(p2Name, 'O');
         // console.log(p2.getSymbol())
-        indicateCurrentPlayer(p2)
+        indicateCurrentPlayer(p1)
         return p1, p2
     }
 
     // indicate current player
     const indicateCurrentPlayer = (player) => {
-        const currentPlayer = player.getName();
-        console.log(currentPlayer);
+        const currentPlayer = player;
+        console.log(currentPlayer)
+        const currentPlayerSymbol = player.getSymbol();
+        console.log(currentPlayerSymbol)
+        const currentPlayerName = player.getName();
+        console.log(currentPlayerName);
         const controlsDiv = document.querySelector('.controls');
         const currentPlayerDiv = document.createElement('div');
-        currentPlayerDiv.innerText = `${currentPlayer}'s turn`;
+        currentPlayerDiv.innerText = `${currentPlayerName}'s turn`;
         currentPlayerDiv.classList.add('current-player');
         controlsDiv.appendChild(currentPlayerDiv)
+        listenForMove();
+
     }
 
+    const listenForMove = () => {
+        const playableArea = document.querySelector('.gameboard');
+        playableArea.addEventListener('click', checkCell)
+    }
+
+    const checkCell = (e) => {
+
+        const playableArea = document.querySelector('.gameboard');
+        playableArea.removeEventListener('click', checkCell)
+
+        const clickedCell = e.target;
+
+        if (clickedCell.classList.contains('cell')) {
+            const indexInArray = clickedCell.id;
+            console.log(indexInArray)
+            const symbol = '*'
+            if (gameboard.gameboardArray[indexInArray] === '') {
+                gameboard.markCell(indexInArray, symbol)
+            }
+
+
+        }
+
+    }
 
 
 
