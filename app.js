@@ -2,13 +2,14 @@
 const newGame = document.querySelector('.new-game')
 
 // Factory Function for players
-const Player = (name, symbol) => {
+const Player = (name, symbol, isTurn) => {
     const getName = () => name;
     const getSymbol = () => symbol;
+    const getIsTurn = () => isTurn;
     const makeMove = (index) => {
         console.log(index, name)
     }
-    return { getName, getSymbol, makeMove }
+    return { getName, getSymbol, getIsTurn, makeMove }
 }
 
 
@@ -25,13 +26,38 @@ const gameboard = (() => {
         })
     }
 
+    const checkCell = (e, p1, p2) => {
+        const playableArea = document.querySelector('.gameboard');
+        playableArea.removeEventListener('click', checkCell)
+
+        const clickedCell = e.target;
+        let player;
+        if (p1.getIsTurn() === true) {
+            player = p1;
+
+        } else {
+            player = p2
+        }
+
+        if (clickedCell.classList.contains('cell')) {
+            const indexInArray = clickedCell.id;
+            console.log(indexInArray)
+            const symbol = player.getSymbol()
+            if (gameboard.gameboardArray[indexInArray] === '') {
+                gameboard.markCell(indexInArray, symbol)
+            }
+
+
+        }
+    }
+
     const markCell = (index, symbol) => {
         gameboardArray[index] = symbol;
         printBoard();
         console.log(gameboardArray)
     }
 
-    return { printBoard, gameboardArray, markCell }
+    return { printBoard, gameboardArray, markCell, checkCell }
 })();
 
 
@@ -41,6 +67,7 @@ const playGame = (() => {
     const p1NameUI = document.querySelector('.player-1-UI');
     const p2NameUI = document.querySelector('.player-2-UI');
     const namePrompt = document.querySelector('.prompt');
+    const playableArea = document.querySelector('.gameboard');
 
     // get player Names & assign symbol
     const getPlayerNames = () => {
@@ -60,18 +87,26 @@ const playGame = (() => {
 
     // create Player objects
     const createPlayers = (p1Name, p2Name) => {
-        // console.log(p1Name)
-        const p1 = Player(p1Name, 'X');
-        const p2 = Player(p2Name, 'O');
-        // console.log(p2.getSymbol())
-        indicateCurrentPlayer(p1)
-        return p1, p2
+
+        const p1 = Player(p1Name, 'X', true);
+        const p2 = Player(p2Name, 'O', false);
+        let player = displayCurrentPlayer(p2, p1);
+
     }
 
     // indicate current player
-    const indicateCurrentPlayer = (player) => {
-        const currentPlayer = player;
-        console.log(currentPlayer)
+    const displayCurrentPlayer = (currentPlayer, otherPlayer) => {
+        let player, other
+        if (currentPlayer.getIsTurn()) {
+            player = currentPlayer;
+            other = otherPlayer;
+        }
+        else {
+            player = otherPlayer;
+            other = currentPlayer;
+        }
+        console.log(`Current player is ${player.getName()}, and other player is ${other.getName()}`)
+
         const currentPlayerSymbol = player.getSymbol();
         console.log(currentPlayerSymbol)
         const currentPlayerName = player.getName();
@@ -81,61 +116,15 @@ const playGame = (() => {
         currentPlayerDiv.innerText = `${currentPlayerName}'s turn`;
         currentPlayerDiv.classList.add('current-player');
         controlsDiv.appendChild(currentPlayerDiv)
-        listenForMove();
 
     }
 
-    const listenForMove = () => {
-        const playableArea = document.querySelector('.gameboard');
-        playableArea.addEventListener('click', checkCell)
-    }
-
-    const checkCell = (e) => {
-
-        const playableArea = document.querySelector('.gameboard');
-        playableArea.removeEventListener('click', checkCell)
-
-        const clickedCell = e.target;
-
-        if (clickedCell.classList.contains('cell')) {
-            const indexInArray = clickedCell.id;
-            console.log(indexInArray)
-            const symbol = '*'
-            if (gameboard.gameboardArray[indexInArray] === '') {
-                gameboard.markCell(indexInArray, symbol)
-            }
-
-
-        }
-
-    }
-
-
-
-
-
-
-
-
-
+    playableArea.addEventListener('click', gameboard.checkCell)
 
 
     return { getPlayerNames }
 })();
 
-
-
-
-
-
-// if they have, then continue
-
-// random selection of which player goes first
-
-// player turn
-
-
-// check for winner
 
 
 
